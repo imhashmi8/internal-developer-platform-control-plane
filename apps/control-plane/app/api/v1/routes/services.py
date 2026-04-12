@@ -1,10 +1,12 @@
 import logging
+import uuid
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from app.db.session import get_db
+from app.models.job import Job
 from app.models.service import Service
 from app.schemas.service import ServiceCreate, ServiceResponse
 
@@ -26,7 +28,14 @@ def create_service(payload: ServiceCreate, db: Session = Depends(get_db)):
         lifecycle_state="PENDING",
     )
 
+    job = Job(
+        job_id=f"job-{uuid.uuid4()}",
+        operation_type="CREATE_SERVICE",
+        state="PENDING",
+    )
+
     db.add(service)
+    db.add(job)
 
     try:
         db.commit()
@@ -46,5 +55,8 @@ def create_service(payload: ServiceCreate, db: Session = Depends(get_db)):
         ) from exc
 
     db.refresh(service)
+    db.refresh(job)
+
+    logger.info("Created service '%s' with job '%s'", service.service_name, job.job_id)
 
     return service
