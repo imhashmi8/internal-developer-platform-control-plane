@@ -38,3 +38,12 @@ The platform is built for multi-team scale with:
 - environment separation
 - policy inheritance
 - cost attribution readiness
+
+## Control Plane API Design
+The platform exposes versioned APIs for:
+- service creation
+- preview environments
+- promotions
+- rollback
+- scorecards
+- async job tracking
