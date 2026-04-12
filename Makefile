@@ -23,7 +23,7 @@ test:
 	pytest tests -v
 
 run-control-plane:
-	cd apps/control-plane && uv run uvicorn app.main:app --reload --port 8000
+	cd apps/control-plane && uv run --env-file ../../.env.example uvicorn app.main:app --reload --port 8000
 
 run-worker:
 	cd workers/provisioning-worker && python -m worker.main
