@@ -18,3 +18,14 @@ A Staff-level flagship GitHub portfolio project that demonstrates:
 - docs/architecture/02-platform-personas-and-developer-journey.md
 - docs/architecture/03-end-to-end-request-lifecycle.md
 - docs/architecture/04-high-level-production-architecture.md
+
+## Repository Design
+This monorepo is organized by platform product boundaries:
+- control plane APIs
+- provisioning workers
+- Terraform + Helm
+- GitOps delivery
+- golden path templates
+- policy packs
+- CLI
+- test suites
