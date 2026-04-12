@@ -29,3 +29,12 @@ This monorepo is organized by platform product boundaries:
 - policy packs
 - CLI
 - test suites
+
+## Multi-Tenant Design
+The platform is built for multi-team scale with:
+- tenant namespace isolation
+- RBAC boundaries
+- secret tenancy
+- environment separation
+- policy inheritance
+- cost attribution readiness
