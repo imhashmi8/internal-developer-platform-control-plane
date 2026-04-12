@@ -17,3 +17,4 @@ A Staff-level flagship GitHub portfolio project that demonstrates:
 - docs/architecture/01-business-problem-and-product-framing.md
 - docs/architecture/02-platform-personas-and-developer-journey.md
 - docs/architecture/03-end-to-end-request-lifecycle.md
+- docs/architecture/04-high-level-production-architecture.md
