@@ -47,3 +47,10 @@ The platform exposes versioned APIs for:
 - rollback
 - scorecards
 - async job tracking
+
+## Architecture Decisions
+- FastAPI control plane
+- Celery workflow engine
+- GitOps app-of-apps
+- multi-tenant boundaries
+- roadmap for Backstage + multi-cloud
