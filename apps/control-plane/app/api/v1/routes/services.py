@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.orm import Session
 
+from app.celery_app import celery_app
 from app.db.session import get_db
 from app.models.job import Job
 from app.models.service import Service
@@ -57,6 +58,8 @@ def create_service(payload: ServiceCreate, db: Session = Depends(get_db)):
     db.refresh(service)
     db.refresh(job)
 
-    logger.info("Created service '%s' with job '%s'", service.service_name, job.job_id)
+    celery_app.send_task("process_create_service_job", kwargs={"job_id": job.job_id})
+
+    logger.info("Created service '%s', dispatched job '%s'", service.service_name, job.job_id)
 
     return service

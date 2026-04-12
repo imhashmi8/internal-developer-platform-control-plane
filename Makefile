@@ -26,7 +26,7 @@ run-control-plane:
 	cd apps/control-plane && uv run --env-file ../../.env uvicorn app.main:app --reload --port 8000
 
 run-worker:
-	cd workers/provisioning-worker && python -m worker.main
+	cd workers/provisioning-worker && PYTHONPATH=../../apps/control-plane:. uv run --env-file ../../.env celery -A worker.celery_app worker --loglevel=info
 
 up:
 	docker compose -f docker-compose.dev.yml up -d

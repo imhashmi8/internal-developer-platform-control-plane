@@ -19,6 +19,7 @@ class Settings(BaseModel):
     )
     db_echo: bool = Field(default_factory=lambda: _env_flag("DB_ECHO", False))
     db_required: bool = Field(default_factory=lambda: _env_flag("DB_REQUIRED", False))
+    redis_url: str = Field(default_factory=lambda: os.getenv("REDIS_URL", "redis://localhost:6379/0"))
 
 
 settings = Settings()
