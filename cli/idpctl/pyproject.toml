@@ -1,0 +1,9 @@
+[project]
+name = "idpctl"
+version = "0.1.0"
+description = "CLI for the Internal Developer Platform control plane"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+idpctl = "idpctl.__main__:main"
