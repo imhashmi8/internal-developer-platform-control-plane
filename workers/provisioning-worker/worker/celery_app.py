@@ -5,7 +5,7 @@ from celery import Celery
 
 load_dotenv("../../.env")
 
-redis_url = os.getenv("REDIS_URL")
+redis_url = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 
 celery_app = Celery(
     "idp-worker",
