@@ -9,7 +9,7 @@ from app.celery_app import celery_app
 from app.db.session import get_db
 from app.models.job import Job
 from app.models.service import Service
-from app.schemas.service import ServiceCreate, ServiceResponse
+from app.schemas.service import ServiceCreate, ServiceCreateResponse, ServiceResponse
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -20,7 +20,7 @@ def list_services(db: Session = Depends(get_db)):
     return db.query(Service).order_by(Service.id.asc()).all()
 
 
-@router.post("/", response_model=ServiceResponse, status_code=status.HTTP_201_CREATED)
+@router.post("/", response_model=ServiceCreateResponse, status_code=status.HTTP_201_CREATED)
 def create_service(payload: ServiceCreate, db: Session = Depends(get_db)):
     service = Service(
         service_name=payload.service_name,
@@ -29,16 +29,18 @@ def create_service(payload: ServiceCreate, db: Session = Depends(get_db)):
         lifecycle_state="PENDING",
     )
 
-    job = Job(
-        job_id=f"job-{uuid.uuid4()}",
-        operation_type="CREATE_SERVICE",
-        state="PENDING",
-    )
-
     db.add(service)
-    db.add(job)
 
     try:
+        db.flush()
+        job = Job(
+            job_id=f"job-{uuid.uuid4()}",
+            service_id=service.id,
+            operation_type="CREATE_SERVICE",
+            state="PENDING",
+            message="Queued service provisioning workflow",
+        )
+        db.add(job)
         db.commit()
     except IntegrityError as exc:
         db.rollback()
@@ -62,4 +64,4 @@ def create_service(payload: ServiceCreate, db: Session = Depends(get_db)):
 
     logger.info("Created service '%s', dispatched job '%s'", service.service_name, job.job_id)
 
-    return service
+    return {"service": service, "job": job}
