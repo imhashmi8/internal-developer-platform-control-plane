@@ -1,0 +1,22 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-idp-labels
+spec:
+  validationFailureAction: Audit
+  background: true
+  rules:
+    - name: require-owner-labels
+      match:
+        any:
+          - resources:
+              kinds:
+                - Deployment
+                - Service
+      validate:
+        message: "Platform-managed resources must include team and environment labels."
+        pattern:
+          metadata:
+            labels:
+              idp.platform/team: "?*"
+              idp.platform/environment: "?*"

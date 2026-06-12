@@ -1,0 +1,12 @@
+service:
+  name: example-api
+  team: platform
+  environment: dev
+
+image:
+  repository: ghcr.io/example/example-api
+  tag: latest
+
+replicaCount: 2
+
+containerPort: 8080
