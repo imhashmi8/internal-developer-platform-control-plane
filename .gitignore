@@ -34,4 +34,9 @@ dist/
 build/
 *.egg-info/
 
+# Generated per-service provisioning artifacts (created by the worker)
+gitops/applications/tenants/
+infra/terraform/tenants/
+docs/runbooks/tenants/
+
 .claude*
