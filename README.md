@@ -54,3 +54,49 @@ The platform exposes versioned APIs for:
 - GitOps app-of-apps
 - multi-tenant boundaries
 - roadmap for Backstage + multi-cloud
+
+## Try the MVP Locally
+
+Start Postgres and Redis:
+
+```bash
+make up
+```
+
+Install the local packages:
+
+```bash
+make install
+```
+
+In one terminal, run the control plane:
+
+```bash
+make run-control-plane
+```
+
+In another terminal, run the provisioning worker:
+
+```bash
+make run-worker
+```
+
+Create a service through the CLI:
+
+```bash
+idpctl create-service payments-api --team checkout --env dev --wait
+```
+
+The worker will generate local platform artifacts:
+
+- `gitops/applications/tenants/checkout/payments-api-dev.yaml`
+- `infra/terraform/tenants/checkout/payments-api-dev.tfvars.json`
+- `docs/runbooks/tenants/checkout/payments-api.md`
+
+Useful API endpoints:
+
+- `GET /api/v1/health/`
+- `GET /api/v1/services/`
+- `POST /api/v1/services/`
+- `GET /api/v1/jobs/`
+- `GET /api/v1/jobs/{job_id}`
