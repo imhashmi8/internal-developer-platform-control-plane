@@ -15,6 +15,7 @@ install:
 	pip install pre-commit
 	cd apps/control-plane && pip install -e .
 	cd workers/provisioning-worker && pip install -e .
+	cd cli/idpctl && pip install -e .
 
 lint:
 	pre-commit run --all-files
