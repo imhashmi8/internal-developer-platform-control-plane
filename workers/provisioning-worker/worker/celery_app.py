@@ -1,9 +1,15 @@
-from dotenv import load_dotenv
 import os
 
 from celery import Celery
 
-load_dotenv("../../.env")
+try:
+    from dotenv import load_dotenv
+
+    load_dotenv("../../.env")
+except ImportError:
+    # python-dotenv is a convenience for local runs; env vars may also be
+    # supplied directly (e.g. via `uv run --env-file` or the process env).
+    pass
 
 redis_url = os.getenv("REDIS_URL", "redis://localhost:6379/0")
 
